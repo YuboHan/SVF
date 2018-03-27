@@ -1,22 +1,26 @@
 echo "Setting up environment for PTA"
 
+# change following parameters
+install_base=/home/y59han
+build_directory='Debug-build'
 
 #########PATH FOR LLVM (do not recommand to change it)##############                                                                 
 llvm_version=3.8.0
-export LLVM_HOME=/home/ysui/llvm-$llvm_version
-export LLVM_SRC_ROOT=$LLVM_HOME/llvm-$llvm_version.src
-export LLVM_OBJ_ROOT=$LLVM_HOME/llvm-$llvm_version.obj
-export PATH=$LLVM_OBJ_ROOT/Release+Asserts/bin:$PATH
-#export LLVM_OBJ_ROOT=$LLVM_HOME/llvm-$llvm_version.dbg
-#export PATH=$LLVM_OBJ_ROOT/Debug+Asserts/bin:$PATH
+
+# change this to your home
+export LLVM_SRC_ROOT=$install_base/llvm-$llvm_version.src
+export LLVM_OBJ_ROOT=$install_base/llvm-$llvm_version.obj
+export LLVM_DIR_ROOT=$LLVM_OBJ_ROOT
+export PATH=$LLVM_DIR_ROOT/bin:$PATH
+
 export LLVMOPT=opt
 export CLANG=clang
 export LLVMDIS=llvm-dis
 export LLVMLLC=llc
 
 ##############astyle code formatting###############
-AstyleDir=/home/ysui/astyle/build/clang
-export PATH=$AstyleDir/bin:$PATH
+#AstyleDir=$install_base/astyle/build/clang
+#export PATH=$AstyleDir/bin:$PATH
 
 ##############check what os we have
 PLATFORM='unknown'
@@ -29,20 +33,10 @@ elif [[ "$unamestr" == 'FreeBSD' ]]; then
 export PLATFORM='freebsd'
 fi
 
-
-#########PATH FOR PTA##############                                                                 
 export PTAHOME=`pwd`
-if [[ $1 == 'debug' ]]
-then
-PTAOBJTY='Debug'
-else
-PTAOBJTY='Release'
-fi
-
-export PTAHOME=`pwd`
-export PTABIN=$PTAHOME/$PTAOBJTY+Asserts/bin
-export PTALIB=$PTAHOME/$PTAOBJTY+Asserts/lib
-export PTARTLIB=$PTAHOME/lib/RuntimeLib
+export PTABIN=$PTAHOME/$build_directory/bin
+export PTALIB=$PTAHOME/$build_directory/lib
+#export PTARTLIB=$PTAHOME/lib/RuntimeLib
 export PATH=$PTABIN:$PATH
 
 export PTATEST=$PTAHOME/tests
