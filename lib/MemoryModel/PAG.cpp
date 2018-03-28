@@ -646,7 +646,7 @@ struct DOTGraphTraits<PAG*> : public DefaultDOTGraphTraits {
     /// Return label of a VFG node with two display mode
     /// Either you can choose to display the name of the value or the whole instruction
     static std::string getNodeLabel(PAGNode *node, PAG *graph) {
-        bool briefDisplay = true;
+        bool briefDisplay = false;
         bool nameDisplay = true;
         std::string str;
         raw_string_ostream rawstr(str);
@@ -661,10 +661,12 @@ struct DOTGraphTraits<PAG*> : public DefaultDOTGraphTraits {
                 rawstr << node->getId();
         } else {
             // print the whole value
-            if (!isa<DummyValPN>(node) || !isa<DummyObjPN>(node))
+            //if (!isa<DummyValPN>(node) || !isa<DummyObjPN>(node))
+            if (node->hasValue())
                 rawstr << *node->getValue();
             else
-                rawstr << "";
+                rawstr << node->getId();
+                //rawstr << "";
 
         }
 
